@@ -1,0 +1,38 @@
+{
+  "name": "harness-eval",
+  "version": "0.1.0",
+  "tools": [
+    {
+      "name": "score",
+      "description": "Score harness engineering quality",
+      "parameters": {
+        "path": {"type": "string", "default": "."},
+        "format": {"type": "string", "enum": ["console", "json", "markdown"]}
+      }
+    },
+    {
+      "name": "compare",
+      "description": "Compare two projects",
+      "parameters": {
+        "path_a": {"type": "string"},
+        "path_b": {"type": "string"}
+      }
+    },
+    {
+      "name": "init",
+      "description": "Bootstrap harness files",
+      "parameters": {
+        "path": {"type": "string", "default": "."},
+        "force": {"type": "boolean", "default": false}
+      }
+    },
+    {
+      "name": "badge",
+      "description": "Generate SVG score badge",
+      "parameters": {
+        "path": {"type": "string", "default": "."},
+        "output": {"type": "string"}
+      }
+    }
+  ]
+}
