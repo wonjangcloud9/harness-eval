@@ -33,6 +33,13 @@ RECOMMENDATIONS: dict[str, list[str]] = {
         "Add CONTRIBUTING.md for contributors",
         "Add CHANGELOG.md to track changes",
     ],
+    "Entropy Management": [
+        "Keep CLAUDE.md/AGENTS.md under 200 lines",
+        "Use repo-relative links, not external URLs",
+        "Add ARCHITECTURE.md with layer boundary rules",
+        "Add issue refs to TODO/FIXME comments",
+        "Validate doc links point to existing files",
+    ],
 }
 
 

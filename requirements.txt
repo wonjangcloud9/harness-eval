@@ -1,0 +1,11 @@
+click==8.3.1
+-e git+https://github.com/wonjangcloud9/harness-eval.git@c187e4b0ed1320a2d5001d559a1ca18ef04a914d#egg=harness_eval
+iniconfig==2.3.0
+markdown-it-py==4.0.0
+mdurl==0.1.2
+packaging==26.0
+pluggy==1.6.0
+Pygments==2.19.2
+pytest==9.0.2
+PyYAML==6.0.3
+rich==14.3.3

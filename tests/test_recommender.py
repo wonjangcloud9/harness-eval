@@ -9,7 +9,7 @@ from harness_eval.scanner import scan
 def test_empty_project_gets_all_recs(tmp_path: Path):
     card = scan(tmp_path)
     recs = get_recommendations(card)
-    assert len(recs) == 6
+    assert len(recs) == 7
     assert recs[0]["current_pct"] == 0.0
 
 
@@ -30,7 +30,7 @@ def test_full_project_fewer_recs(tmp_path: Path):
     card = scan(tmp_path)
     recs = get_recommendations(card)
     # Some dimensions should now be satisfied
-    assert len(recs) < 6
+    assert len(recs) < 7
 
 
 def test_recs_sorted_by_lowest_score(tmp_path: Path):

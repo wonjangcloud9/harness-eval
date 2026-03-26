@@ -9,12 +9,12 @@ from harness_eval.scanner import scan
 def test_scan_returns_scorecard(tmp_path: Path):
     card = scan(tmp_path)
     assert isinstance(card, Scorecard)
-    assert len(card.dimensions) == 6
+    assert len(card.dimensions) == 7
 
 
 def test_empty_project_low_score(tmp_path: Path):
     card = scan(tmp_path)
-    assert card.percentage == 0.0
+    assert card.percentage < 15.0  # entropy passes vacuously
 
 
 def test_context_file_boosts_score(tmp_path: Path):

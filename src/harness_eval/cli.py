@@ -103,6 +103,30 @@ def compare(paths: tuple[str, str]) -> None:
     )
 
 
+@main.command()
+@click.argument(
+    "path",
+    default=".",
+    type=click.Path(exists=True),
+)
+@click.option(
+    "-o", "--output",
+    type=click.Path(),
+    help="Write SVG badge to file",
+)
+def badge(path: str, output: str | None) -> None:
+    """Generate an SVG score badge."""
+    from harness_eval.reporters.badge import render_badge
+    card = scan(path)
+    svg = render_badge(card)
+    if output:
+        from pathlib import Path
+        Path(output).write_text(svg)
+        click.echo(f"Badge written to {output}")
+    else:
+        click.echo(svg)
+
+
 def _print_json(card) -> None:
     import json
     data = {

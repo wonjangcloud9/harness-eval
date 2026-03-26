@@ -4,6 +4,7 @@ from pathlib import Path
 
 from harness_eval.analyzers.context import ContextAnalyzer
 from harness_eval.analyzers.docs import DocsAnalyzer
+from harness_eval.analyzers.entropy import EntropyAnalyzer
 from harness_eval.analyzers.feedback import FeedbackLoopAnalyzer
 from harness_eval.analyzers.reproducibility import (
     ReproducibilityAnalyzer,
@@ -19,6 +20,7 @@ ALL_ANALYZERS = [
     SafetyAnalyzer(),
     ReproducibilityAnalyzer(),
     DocsAnalyzer(),
+    EntropyAnalyzer(),
 ]
 
 
