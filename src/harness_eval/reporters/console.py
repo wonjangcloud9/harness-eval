@@ -30,7 +30,8 @@ def print_scorecard(card: Scorecard) -> None:
     _console.print(
         Panel(
             f"[bold {total_color}]"
-            f"{card.percentage:.0f}%"
+            f"Grade: {card.grade}  "
+            f"({card.percentage:.0f}%)"
             f"[/bold {total_color}]",
             title="Overall Score",
         )

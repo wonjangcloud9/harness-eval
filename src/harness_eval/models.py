@@ -33,3 +33,20 @@ class Scorecard:
         if self.max_total == 0:
             return 0.0
         return (self.total / self.max_total) * 100
+
+    @property
+    def grade(self) -> str:
+        return pct_to_grade(self.percentage)
+
+
+def pct_to_grade(pct: float) -> str:
+    """Convert percentage to letter grade."""
+    if pct >= 90:
+        return "A"
+    if pct >= 75:
+        return "B"
+    if pct >= 55:
+        return "C"
+    if pct >= 35:
+        return "D"
+    return "F"
