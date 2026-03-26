@@ -1,0 +1,14 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "harness-eval"
+version = "0.1.0"
+description = "Measure harness engineering quality"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = ["click>=8.0", "rich>=13.0", "pyyaml>=6.0"]
+
+[project.scripts]
+harness-eval = "harness_eval.cli:main"
