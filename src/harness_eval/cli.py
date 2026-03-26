@@ -127,6 +127,30 @@ def badge(path: str, output: str | None) -> None:
         click.echo(svg)
 
 
+@main.command(name="init")
+@click.argument(
+    "path",
+    default=".",
+    type=click.Path(exists=True),
+)
+@click.option(
+    "--force", is_flag=True,
+    help="Overwrite existing files",
+)
+def init_cmd(path: str, force: bool) -> None:
+    """Bootstrap harness engineering files."""
+    from pathlib import Path as P
+    from harness_eval.init import init_harness
+
+    created = init_harness(P(path), force=force)
+    if created:
+        for f in created:
+            click.echo(f"  Created {f}")
+        click.echo(f"\n{len(created)} file(s) created.")
+    else:
+        click.echo("All harness files already exist.")
+
+
 def _print_json(card) -> None:
     import json
     data = {
