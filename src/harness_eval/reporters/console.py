@@ -6,10 +6,11 @@ from rich.table import Table
 
 from harness_eval.models import Scorecard
 
+_console = Console()
+
 
 def print_scorecard(card: Scorecard) -> None:
     """Pretty-print a scorecard to the terminal."""
-    console = Console()
     table = Table(title="Harness Engineering Scorecard")
     table.add_column("Dimension", style="cyan")
     table.add_column("Score", justify="right")
@@ -24,9 +25,9 @@ def print_scorecard(card: Scorecard) -> None:
             "; ".join(d.details),
         )
 
-    console.print(table)
+    _console.print(table)
     total_color = _score_color(card.percentage)
-    console.print(
+    _console.print(
         Panel(
             f"[bold {total_color}]"
             f"{card.percentage:.0f}%"
@@ -34,6 +35,21 @@ def print_scorecard(card: Scorecard) -> None:
             title="Overall Score",
         )
     )
+
+
+def print_recommendations(recs: list[dict]) -> None:
+    """Print improvement recommendations."""
+    _console.print()
+    _console.print("[bold]Recommendations[/bold] (lowest score first):")
+    for rec in recs:
+        dim = rec["dimension"]
+        pct = rec["current_pct"]
+        color = _score_color(pct)
+        _console.print(
+            f"\n  [{color}]{dim} ({pct:.0f}%)[/{color}]"
+        )
+        for s in rec["suggestions"]:
+            _console.print(f"    - {s}")
 
 
 def _score_color(pct: float) -> str:

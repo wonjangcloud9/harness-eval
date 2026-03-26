@@ -2,7 +2,11 @@
 
 import click
 
-from harness_eval.reporters.console import print_scorecard
+from harness_eval.recommender import get_recommendations
+from harness_eval.reporters.console import (
+    print_recommendations,
+    print_scorecard,
+)
 from harness_eval.scanner import scan
 
 
@@ -17,13 +21,22 @@ from harness_eval.scanner import scan
     is_flag=True,
     help="Output as JSON",
 )
-def main(path: str, as_json: bool) -> None:
+@click.option(
+    "--recommend/--no-recommend",
+    default=True,
+    help="Show improvement recommendations",
+)
+def main(path: str, as_json: bool, recommend: bool) -> None:
     """Evaluate harness engineering quality."""
     card = scan(path)
     if as_json:
         _print_json(card)
     else:
         print_scorecard(card)
+        if recommend:
+            recs = get_recommendations(card)
+            if recs:
+                print_recommendations(recs)
 
 
 def _print_json(card) -> None:
