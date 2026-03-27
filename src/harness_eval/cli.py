@@ -272,6 +272,30 @@ def init_cmd(path: str, force: bool) -> None:
 
 
 @main.command()
+@click.argument(
+    "path",
+    default=".",
+    type=click.Path(exists=True),
+)
+def fix(path: str) -> None:
+    """Auto-fix common harness issues by creating missing files."""
+    from pathlib import Path
+
+    from harness_eval.fixer import fix_harness
+
+    actions = fix_harness(Path(path))
+    if actions:
+        for action in actions:
+            click.echo(f"  {action}")
+        click.echo(f"\n{len(actions)} fix(es) applied.")
+
+        card = scan(path)
+        click.echo(f"  New score: {card.grade} ({card.percentage:.0f}%)")
+    else:
+        click.echo("Nothing to fix — all harness files present.")
+
+
+@main.command()
 @click.argument("dimension", required=False)
 def explain(dimension: str | None) -> None:
     """Explain what each dimension measures and why it matters."""
