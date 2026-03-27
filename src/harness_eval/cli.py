@@ -148,6 +148,31 @@ def compare(paths: tuple[str, str]) -> None:
 
 
 @main.command()
+@click.argument(
+    "path",
+    default=".",
+    type=click.Path(exists=True),
+)
+@click.option(
+    "--interval",
+    type=float,
+    default=2.0,
+    help="Seconds between file checks",
+)
+def watch(path: str, interval: float) -> None:
+    """Watch project for changes and re-score automatically."""
+    from pathlib import Path
+
+    from harness_eval.watcher import watch_and_score
+
+    click.echo(f"Watching {path} for harness file changes (Ctrl+C to stop)...")
+    try:
+        watch_and_score(Path(path), interval=interval)
+    except KeyboardInterrupt:
+        click.echo("\nStopped watching.")
+
+
+@main.command()
 @click.argument("paths", nargs=-1, required=True)
 @click.option(
     "--json",
