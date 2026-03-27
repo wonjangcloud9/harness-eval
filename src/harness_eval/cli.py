@@ -271,6 +271,59 @@ def init_cmd(path: str, force: bool) -> None:
         click.echo("All harness files already exist.")
 
 
+@main.command(name="run")
+@click.argument(
+    "repo_path",
+    default=".",
+    type=click.Path(exists=True),
+)
+@click.option(
+    "-t",
+    "--tasks-dir",
+    default="benchmarks",
+    type=click.Path(exists=True),
+    help="Directory containing benchmark YAML tasks",
+)
+@click.option(
+    "--json",
+    "as_json",
+    is_flag=True,
+    help="Output results as JSON",
+)
+def run_cmd(repo_path: str, tasks_dir: str, as_json: bool) -> None:
+    """Run benchmark tasks against a repository."""
+    from pathlib import Path
+
+    from harness_eval.runner import run_benchmark
+
+    results = run_benchmark(Path(repo_path), Path(tasks_dir))
+
+    if not results:
+        click.echo("No benchmark tasks found.")
+        return
+
+    if as_json:
+        import json
+
+        data = [
+            {"task_id": r.task_id, "passed": r.passed, "error": r.error}
+            for r in results
+        ]
+        click.echo(json.dumps(data, indent=2))
+        return
+
+    passed = sum(1 for r in results if r.passed)
+    total = len(results)
+
+    for r in results:
+        status = "PASS" if r.passed else "FAIL"
+        click.echo(f"  [{status}] {r.task_id}")
+        if r.error:
+            click.echo(f"         {r.error}")
+
+    click.echo(f"\n{passed}/{total} tasks passed ({passed/total*100:.0f}%)")
+
+
 @main.command()
 @click.argument(
     "path",
