@@ -19,6 +19,7 @@ def test_badge_contains_grade(tmp_path: Path):
 
 def test_badge_cli(tmp_path: Path):
     from click.testing import CliRunner
+
     from harness_eval.cli import main
 
     runner = CliRunner()

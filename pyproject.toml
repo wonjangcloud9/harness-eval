@@ -28,4 +28,6 @@ target-version = "py311"
 select = ["F", "E", "I", "N"]
 
 [tool.ruff.lint.isort]
-profile = "black"
+combine-as-imports = true
+force-single-line = false
+known-first-party = ["harness_eval"]

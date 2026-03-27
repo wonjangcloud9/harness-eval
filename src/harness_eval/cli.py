@@ -146,10 +146,11 @@ def badge(path: str, output: str | None) -> None:
 )
 def init_cmd(path: str, force: bool) -> None:
     """Bootstrap harness engineering files."""
-    from pathlib import Path as P
+    from pathlib import Path
+
     from harness_eval.init import init_harness
 
-    created = init_harness(P(path), force=force)
+    created = init_harness(Path(path), force=force)
     if created:
         for f in created:
             click.echo(f"  Created {f}")
