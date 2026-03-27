@@ -60,6 +60,22 @@ How it works:
 3. Extracts the **test patch** as the verification criteria
 4. Generates YAML task files with base commit, test patch, hints, difficulty
 
+### `fix` — Auto-fix harness issues
+
+```bash
+harness-eval fix .           # Create missing CLAUDE.md, ARCHITECTURE.md, etc.
+```
+
+Detects your project language (Python/Node/Go/Rust) and creates
+language-appropriate files (.pre-commit-config.yaml for Python, etc.)
+
+### `explain` — Learn about dimensions
+
+```bash
+harness-eval explain           # Show all dimensions
+harness-eval explain context   # Explain one dimension
+```
+
 ### `badge` — SVG score badge
 
 ```bash
