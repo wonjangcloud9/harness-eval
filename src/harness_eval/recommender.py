@@ -1,6 +1,48 @@
 """Recommendation engine based on scorecard."""
 
+from pathlib import Path
+
 from harness_eval.models import DimensionScore, Scorecard
+
+LANG_SPECIFIC: dict[str, dict[str, list[str]]] = {
+    "python": {
+        "Feedback Loops": [
+            "Add ruff.toml or [tool.ruff] in pyproject.toml",
+            "Add .pre-commit-config.yaml with ruff hooks",
+        ],
+        "Reproducibility": [
+            "Add uv.lock or poetry.lock for pinned deps",
+            "Use pyproject.toml for dependency management",
+        ],
+    },
+    "node": {
+        "Feedback Loops": [
+            "Add eslint.config.js or .eslintrc",
+            "Add .husky/ for pre-commit hooks",
+        ],
+        "Reproducibility": [
+            "Ensure package-lock.json or yarn.lock is committed",
+            "Use engines field in package.json for Node version",
+        ],
+    },
+    "go": {
+        "Feedback Loops": [
+            "Add golangci-lint config (.golangci.yml)",
+        ],
+        "Reproducibility": [
+            "Ensure go.sum is committed",
+        ],
+    },
+    "rust": {
+        "Feedback Loops": [
+            "Add clippy to CI (cargo clippy)",
+            "Add rustfmt.toml for formatting",
+        ],
+        "Reproducibility": [
+            "Ensure Cargo.lock is committed",
+        ],
+    },
+}
 
 RECOMMENDATIONS: dict[str, list[str]] = {
     "Context Engineering": [
@@ -43,13 +85,37 @@ RECOMMENDATIONS: dict[str, list[str]] = {
 }
 
 
-def get_recommendations(card: Scorecard) -> list[dict]:
-    """Return prioritized recommendations."""
+def detect_language(project_path: str) -> str:
+    """Detect primary project language from file markers."""
+    project = Path(project_path)
+    markers = {
+        "python": ["pyproject.toml", "setup.py", "requirements.txt"],
+        "node": ["package.json", "tsconfig.json"],
+        "go": ["go.mod"],
+        "rust": ["Cargo.toml"],
+    }
+    for lang, files in markers.items():
+        if any((project / f).exists() for f in files):
+            return lang
+    return "unknown"
+
+
+def get_recommendations(
+    card: Scorecard,
+    language: str | None = None,
+) -> list[dict]:
+    """Return prioritized recommendations, optionally language-specific."""
+    if language is None:
+        language = detect_language(card.project_path)
+
+    lang_recs = LANG_SPECIFIC.get(language, {})
+
     results = []
     for dim in card.dimensions:
         if dim.score >= dim.max_score:
             continue
-        recs = RECOMMENDATIONS.get(dim.name, [])
+        recs = list(RECOMMENDATIONS.get(dim.name, []))
+        recs.extend(lang_recs.get(dim.name, []))
         results.append(
             {
                 "dimension": dim.name,
