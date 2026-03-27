@@ -60,6 +60,13 @@ How it works:
 3. Extracts the **test patch** as the verification criteria
 4. Generates YAML task files with base commit, test patch, hints, difficulty
 
+### `leaderboard` — Rank multiple projects
+
+```bash
+harness-eval leaderboard ./proj-a ./proj-b ./proj-c
+harness-eval leaderboard user/repo-a user/repo-b --json
+```
+
 ### `run` — Execute benchmark tasks
 
 ```bash
