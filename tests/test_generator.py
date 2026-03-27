@@ -2,6 +2,9 @@
 
 from subprocess import run
 
+from click.testing import CliRunner
+
+from harness_eval.cli import main
 from harness_eval.generator.git_analyzer import (
     FIX_PATTERN,
     TEST_PATH_PATTERN,
@@ -132,3 +135,51 @@ def test_benchmark_task_to_dict():
     assert d["id"] == "test-001"
     assert d["repo"] == "https://github.com/u/r"
     assert isinstance(d["files_changed"], list)
+
+
+def test_generate_cli_json(tmp_path):
+    repo = _init_git_repo(tmp_path)
+    runner = CliRunner()
+    result = runner.invoke(main, ["generate", str(repo), "--json"])
+    assert result.exit_code == 0
+    assert "fix" in result.output.lower()
+
+
+def test_generate_cli_yaml_files(tmp_path):
+    repo = _init_git_repo(tmp_path)
+    out_dir = tmp_path / "bench_out"
+    runner = CliRunner()
+    result = runner.invoke(main, ["generate", str(repo), "-o", str(out_dir)])
+    assert result.exit_code == 0
+    yaml_files = list(out_dir.glob("*.yaml"))
+    assert len(yaml_files) >= 1
+
+
+def test_generate_cli_no_tasks(tmp_path):
+    """Repo with no fix commits produces a friendly message."""
+    run(["git", "init", str(tmp_path)], check=True, capture_output=True)
+    run(
+        ["git", "-C", str(tmp_path), "config", "user.email", "t@t.com"],
+        check=True,
+        capture_output=True,
+    )
+    run(
+        ["git", "-C", str(tmp_path), "config", "user.name", "T"],
+        check=True,
+        capture_output=True,
+    )
+    (tmp_path / "readme.md").write_text("hello")
+    run(
+        ["git", "-C", str(tmp_path), "add", "."],
+        check=True,
+        capture_output=True,
+    )
+    run(
+        ["git", "-C", str(tmp_path), "commit", "-m", "feat: initial"],
+        check=True,
+        capture_output=True,
+    )
+    runner = CliRunner()
+    result = runner.invoke(main, ["generate", str(tmp_path)])
+    assert result.exit_code == 0
+    assert "No benchmark tasks" in result.output
