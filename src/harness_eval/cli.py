@@ -148,6 +148,72 @@ def compare(paths: tuple[str, str]) -> None:
 
 
 @main.command()
+@click.argument("paths", nargs=-1, required=True)
+@click.option(
+    "--json",
+    "as_json",
+    is_flag=True,
+    help="Output as JSON",
+)
+def leaderboard(paths: tuple[str, ...], as_json: bool) -> None:
+    """Rank multiple projects by harness quality."""
+    from rich.console import Console
+    from rich.table import Table
+
+    entries = []
+    for p in paths:
+        remote_ctx = _resolve_path(p)
+        if remote_ctx is not None:
+            with remote_ctx as local_path:
+                card = scan(str(local_path))
+        else:
+            card = scan(p)
+        entries.append({"path": p, "card": card})
+
+    entries.sort(key=lambda e: e["card"].percentage, reverse=True)
+
+    if as_json:
+        import json
+
+        data = [
+            {
+                "rank": i + 1,
+                "project": e["path"],
+                "grade": e["card"].grade,
+                "score_pct": round(e["card"].percentage, 1),
+            }
+            for i, e in enumerate(entries)
+        ]
+        click.echo(json.dumps(data, indent=2))
+        return
+
+    c = Console()
+    table = Table(title="Harness Leaderboard")
+    table.add_column("#", style="bold", justify="right")
+    table.add_column("Project", style="cyan")
+    table.add_column("Grade", justify="center")
+    table.add_column("Score", justify="right")
+
+    for i, entry in enumerate(entries):
+        card = entry["card"]
+        grade_color = {
+            "A": "green",
+            "B": "blue",
+            "C": "yellow",
+            "D": "red",
+            "F": "bright_red",
+        }.get(card.grade, "white")
+        table.add_row(
+            str(i + 1),
+            entry["path"],
+            f"[{grade_color}]{card.grade}[/{grade_color}]",
+            f"{card.percentage:.0f}%",
+        )
+
+    c.print(table)
+
+
+@main.command()
 @click.argument(
     "path",
     default=".",
