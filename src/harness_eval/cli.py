@@ -25,12 +25,14 @@ def main(ctx: click.Context) -> None:
     type=click.Path(exists=True),
 )
 @click.option(
-    "--json", "as_json",
+    "--json",
+    "as_json",
     is_flag=True,
     help="Output as JSON",
 )
 @click.option(
-    "--markdown", "as_md",
+    "--markdown",
+    "as_md",
     is_flag=True,
     help="Output as Markdown",
 )
@@ -51,6 +53,7 @@ def score(
         _print_json(card)
     elif as_md:
         from harness_eval.reporters.markdown import render_markdown
+
         click.echo(render_markdown(card))
     else:
         print_scorecard(card)
@@ -110,17 +113,20 @@ def compare(paths: tuple[str, str]) -> None:
     type=click.Path(exists=True),
 )
 @click.option(
-    "-o", "--output",
+    "-o",
+    "--output",
     type=click.Path(),
     help="Write SVG badge to file",
 )
 def badge(path: str, output: str | None) -> None:
     """Generate an SVG score badge."""
     from harness_eval.reporters.badge import render_badge
+
     card = scan(path)
     svg = render_badge(card)
     if output:
         from pathlib import Path
+
         Path(output).write_text(svg)
         click.echo(f"Badge written to {output}")
     else:
@@ -134,7 +140,8 @@ def badge(path: str, output: str | None) -> None:
     type=click.Path(exists=True),
 )
 @click.option(
-    "--force", is_flag=True,
+    "--force",
+    is_flag=True,
     help="Overwrite existing files",
 )
 def init_cmd(path: str, force: bool) -> None:
@@ -153,6 +160,7 @@ def init_cmd(path: str, force: bool) -> None:
 
 def _print_json(card) -> None:
     import json
+
     data = {
         "project": card.project_path,
         "grade": card.grade,

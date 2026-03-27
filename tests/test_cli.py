@@ -14,18 +14,14 @@ def test_score_default(tmp_path):
 
 def test_score_json(tmp_path):
     runner = CliRunner()
-    result = runner.invoke(
-        main, ["score", "--json", str(tmp_path)]
-    )
+    result = runner.invoke(main, ["score", "--json", str(tmp_path)])
     assert result.exit_code == 0
     assert '"grade"' in result.output
 
 
 def test_score_markdown(tmp_path):
     runner = CliRunner()
-    result = runner.invoke(
-        main, ["score", "--markdown", str(tmp_path)]
-    )
+    result = runner.invoke(main, ["score", "--markdown", str(tmp_path)])
     assert result.exit_code == 0
     assert "Grade" in result.output
 

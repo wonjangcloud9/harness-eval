@@ -7,10 +7,15 @@ from harness_eval.analyzers.context_depth import score_content_depth
 from harness_eval.models import DimensionScore
 
 CONTEXT_FILES = [
-    "CLAUDE.md", ".claude/CLAUDE.md",
-    "AGENTS.md", ".github/copilot-instructions.md",
-    "GEMINI.md", ".cursorrules", ".cursor/rules",
-    "codex.md", "CONVENTIONS.md",
+    "CLAUDE.md",
+    ".claude/CLAUDE.md",
+    "AGENTS.md",
+    ".github/copilot-instructions.md",
+    "GEMINI.md",
+    ".cursorrules",
+    ".cursor/rules",
+    "codex.md",
+    "CONVENTIONS.md",
 ]
 
 

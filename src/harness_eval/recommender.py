@@ -50,11 +50,13 @@ def get_recommendations(card: Scorecard) -> list[dict]:
         if dim.score >= dim.max_score:
             continue
         recs = RECOMMENDATIONS.get(dim.name, [])
-        results.append({
-            "dimension": dim.name,
-            "current_pct": _pct(dim),
-            "suggestions": recs,
-        })
+        results.append(
+            {
+                "dimension": dim.name,
+                "current_pct": _pct(dim),
+                "suggestions": recs,
+            }
+        )
     results.sort(key=lambda r: r["current_pct"])
     return results
 

@@ -13,14 +13,19 @@ CI_SIGNALS = [
 ]
 
 LINT_SIGNALS = [
-    ".eslintrc", ".eslintrc.js", ".eslintrc.json",
-    "pyproject.toml", "setup.cfg",  # ruff/flake8
-    ".prettierrc", ".prettierrc.json",
+    ".eslintrc",
+    ".eslintrc.js",
+    ".eslintrc.json",
+    "pyproject.toml",
+    "setup.cfg",  # ruff/flake8
+    ".prettierrc",
+    ".prettierrc.json",
     "biome.json",
 ]
 
 HOOK_SIGNALS = [
-    ".husky/", ".pre-commit-config.yaml",
+    ".husky/",
+    ".pre-commit-config.yaml",
     ".github/hooks/",
 ]
 

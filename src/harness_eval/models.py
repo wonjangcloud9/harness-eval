@@ -14,9 +14,7 @@ class DimensionScore:
 @dataclass
 class Scorecard:
     project_path: str
-    dimensions: list[DimensionScore] = field(
-        default_factory=list
-    )
+    dimensions: list[DimensionScore] = field(default_factory=list)
 
     @property
     def total(self) -> float:

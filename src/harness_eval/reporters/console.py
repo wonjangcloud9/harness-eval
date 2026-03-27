@@ -46,9 +46,7 @@ def print_recommendations(recs: list[dict]) -> None:
         dim = rec["dimension"]
         pct = rec["current_pct"]
         color = _score_color(pct)
-        _console.print(
-            f"\n  [{color}]{dim} ({pct:.0f}%)[/{color}]"
-        )
+        _console.print(f"\n  [{color}]{dim} ({pct:.0f}%)[/{color}]")
         for s in rec["suggestions"]:
             _console.print(f"    - {s}")
 

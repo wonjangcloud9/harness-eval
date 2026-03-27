@@ -15,19 +15,19 @@ _TEMPLATE = (
     '<linearGradient id="b" x2="0" y2="100%">'
     '<stop offset="0" stop-color="#bbb" stop-opacity=".1"/>'
     '<stop offset="1" stop-opacity=".1"/>'
-    '</linearGradient>'
+    "</linearGradient>"
     '<mask id="a"><rect width="160" height="20" rx="3" fill="#fff"/></mask>'
     '<g mask="url(#a)">'
     '<rect width="100" height="20" fill="#555"/>'
     '<rect x="100" width="60" height="20" fill="{color}"/>'
     '<rect width="160" height="20" fill="url(#b)"/>'
-    '</g>'
+    "</g>"
     '<g fill="#fff" text-anchor="middle" font-family="sans-serif" font-size="11">'
     '<text x="50" y="15" fill="#010101" fill-opacity=".3">harness-eval</text>'
     '<text x="50" y="14">harness-eval</text>'
     '<text x="130" y="15" fill="#010101" fill-opacity=".3">{grade} {pct}%</text>'
     '<text x="130" y="14">{grade} {pct}%</text>'
-    '</g></svg>'
+    "</g></svg>"
 )
 
 

@@ -8,14 +8,20 @@ from harness_eval.models import DimensionScore
 DOC_SIGNALS = {
     "readme": ["README.md", "README.rst", "README"],
     "contributing": [
-        "CONTRIBUTING.md", "docs/contributing.md",
+        "CONTRIBUTING.md",
+        "docs/contributing.md",
     ],
     "api_docs": [
-        "docs/api.md", "docs/api/", "openapi.yaml",
-        "openapi.json", "swagger.json",
+        "docs/api.md",
+        "docs/api/",
+        "openapi.yaml",
+        "openapi.json",
+        "swagger.json",
     ],
     "changelog": [
-        "CHANGELOG.md", "CHANGES.md", "HISTORY.md",
+        "CHANGELOG.md",
+        "CHANGES.md",
+        "HISTORY.md",
     ],
 }
 

@@ -7,17 +7,21 @@ from harness_eval.models import DimensionScore
 
 SCAFFOLDING_SIGNALS = {
     "tool_schemas": [
-        "tools.json", "tool_definitions.yaml",
-        "mcp.json", ".mcp.json",
+        "tools.json",
+        "tool_definitions.yaml",
+        "mcp.json",
+        ".mcp.json",
     ],
     "arch_constraints": [
-        "architecture.md", "ARCHITECTURE.md",
+        "architecture.md",
+        "ARCHITECTURE.md",
         "docs/architecture.md",
     ],
     "templates": [
         ".github/ISSUE_TEMPLATE",
         ".github/pull_request_template.md",
-        "prompts/", "templates/",
+        "prompts/",
+        "templates/",
     ],
 }
 

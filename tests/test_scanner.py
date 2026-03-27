@@ -20,10 +20,7 @@ def test_empty_project_low_score(tmp_path: Path):
 def test_context_file_boosts_score(tmp_path: Path):
     (tmp_path / "CLAUDE.md").write_text("# Rules")
     card = scan(tmp_path)
-    ctx = next(
-        d for d in card.dimensions
-        if d.name == "Context Engineering"
-    )
+    ctx = next(d for d in card.dimensions if d.name == "Context Engineering")
     assert ctx.score > 0.0
 
 

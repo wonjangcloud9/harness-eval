@@ -7,16 +7,23 @@ from harness_eval.models import DimensionScore
 
 REPRO_SIGNALS = {
     "containerization": [
-        "Dockerfile", "docker-compose.yml",
+        "Dockerfile",
+        "docker-compose.yml",
         "docker-compose.yaml",
     ],
     "lockfile": [
-        "poetry.lock", "uv.lock", "Pipfile.lock",
-        "package-lock.json", "yarn.lock", "pnpm-lock.yaml",
-        "Cargo.lock", "go.sum",
+        "poetry.lock",
+        "uv.lock",
+        "Pipfile.lock",
+        "package-lock.json",
+        "yarn.lock",
+        "pnpm-lock.yaml",
+        "Cargo.lock",
+        "go.sum",
     ],
     "pinned_deps": [
-        "requirements.txt", "constraints.txt",
+        "requirements.txt",
+        "constraints.txt",
     ],
 }
 

@@ -7,16 +7,21 @@ from harness_eval.models import DimensionScore
 
 SAFETY_SIGNALS = {
     "sandbox": [
-        "Dockerfile", "docker-compose.yml",
-        "docker-compose.yaml", ".devcontainer/",
+        "Dockerfile",
+        "docker-compose.yml",
+        "docker-compose.yaml",
+        ".devcontainer/",
     ],
     "approval": [
-        "CODEOWNERS", ".github/CODEOWNERS",
+        "CODEOWNERS",
+        ".github/CODEOWNERS",
         ".github/workflows",  # PR checks
     ],
     "secrets_guard": [
-        ".gitignore", ".env.example",
-        ".gitleaks.toml", ".secretlintrc",
+        ".gitignore",
+        ".env.example",
+        ".gitleaks.toml",
+        ".secretlintrc",
     ],
 }
 

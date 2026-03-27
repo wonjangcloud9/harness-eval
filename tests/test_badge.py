@@ -22,8 +22,6 @@ def test_badge_cli(tmp_path: Path):
     from harness_eval.cli import main
 
     runner = CliRunner()
-    result = runner.invoke(
-        main, ["badge", str(tmp_path)]
-    )
+    result = runner.invoke(main, ["badge", str(tmp_path)])
     assert result.exit_code == 0
     assert "<svg" in result.output

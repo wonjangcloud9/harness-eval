@@ -10,9 +10,7 @@ from pathlib import Path
 from harness_eval.analyzers.base import BaseAnalyzer
 from harness_eval.models import DimensionScore
 
-EXTERNAL_URL_RE = re.compile(
-    r"https?://(?!github\.com/)[^\s\)>\"']+"
-)
+EXTERNAL_URL_RE = re.compile(r"https?://(?!github\.com/)[^\s\)>\"']+")
 TODO_NO_REF_RE = re.compile(
     r"#\s*(TODO|FIXME|HACK|XXX)\b(?!.*(?:#\d|issue|ticket))",
     re.IGNORECASE,
@@ -69,15 +67,11 @@ class EntropyAnalyzer(BaseAnalyzer):
                 text = p.read_text(errors="ignore")
                 urls = EXTERNAL_URL_RE.findall(text)
                 if urls:
-                    details.append(
-                        f"{name}: {len(urls)} external URL(s)"
-                    )
+                    details.append(f"{name}: {len(urls)} external URL(s)")
                     return ("external_urls", False)
         return ("external_urls", True)
 
-    def _check_doc_links(
-        self, project: Path, details: list[str]
-    ) -> tuple[str, bool]:
+    def _check_doc_links(self, project: Path, details: list[str]) -> tuple[str, bool]:
         docs_dir = project / "docs"
         if not docs_dir.is_dir():
             return ("doc_links", True)  # no docs to check
@@ -94,9 +88,7 @@ class EntropyAnalyzer(BaseAnalyzer):
             return ("doc_links", False)
         return ("doc_links", True)
 
-    def _check_stale_todos(
-        self, project: Path, details: list[str]
-    ) -> tuple[str, bool]:
+    def _check_stale_todos(self, project: Path, details: list[str]) -> tuple[str, bool]:
         stale = 0
         for ext in ("*.py", "*.ts", "*.js", "*.go", "*.rs"):
             for f in project.rglob(ext):

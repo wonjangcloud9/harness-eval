@@ -10,5 +10,4 @@ class BaseAnalyzer(ABC):
     """All dimension analyzers inherit this."""
 
     @abstractmethod
-    def analyze(self, project: Path) -> DimensionScore:
-        ...
+    def analyze(self, project: Path) -> DimensionScore: ...

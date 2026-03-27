@@ -22,9 +22,7 @@ def test_bloated_claude_md(tmp_path: Path):
 
 
 def test_external_urls_flagged(tmp_path: Path):
-    (tmp_path / "CLAUDE.md").write_text(
-        "Check https://slack.com/channel/foo for info"
-    )
+    (tmp_path / "CLAUDE.md").write_text("Check https://slack.com/channel/foo for info")
     result = _analyze(tmp_path)
     assert "external URL" in " ".join(result.details)
 
@@ -32,9 +30,7 @@ def test_external_urls_flagged(tmp_path: Path):
 def test_arch_enforcement_detected(tmp_path: Path):
     (tmp_path / "ARCHITECTURE.md").write_text("# Layers")
     result = _analyze(tmp_path)
-    assert "architecture enforcement" not in " ".join(
-        result.details
-    ).lower()
+    assert "architecture enforcement" not in " ".join(result.details).lower()
 
 
 def test_stale_todos(tmp_path: Path):
