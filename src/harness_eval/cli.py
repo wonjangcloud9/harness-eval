@@ -271,6 +271,72 @@ def init_cmd(path: str, force: bool) -> None:
         click.echo("All harness files already exist.")
 
 
+@main.command()
+@click.argument("dimension", required=False)
+def explain(dimension: str | None) -> None:
+    """Explain what each dimension measures and why it matters."""
+    from rich.console import Console
+    from rich.markdown import Markdown
+
+    explanations = {
+        "context": (
+            "## Context Engineering\n"
+            "Files like CLAUDE.md, AGENTS.md, .cursorrules tell AI agents "
+            "how your project works. Content depth (keywords, structure, "
+            "length) determines how well the agent understands your codebase."
+        ),
+        "scaffolding": (
+            "## Scaffolding\n"
+            "Tool schemas, architecture docs, and templates give agents "
+            "structured access to your project. Without scaffolding, agents "
+            "guess instead of following defined patterns."
+        ),
+        "feedback": (
+            "## Feedback Loops\n"
+            "CI/CD, linters, and pre-commit hooks catch agent mistakes "
+            "early. Agents perform best when they get fast, automated "
+            "feedback on their changes."
+        ),
+        "safety": (
+            "## Safety & Guardrails\n"
+            "Sandboxes, CODEOWNERS, and secrets protection prevent agents "
+            "from causing damage. Essential for running agents with any "
+            "level of autonomy."
+        ),
+        "reproducibility": (
+            "## Reproducibility\n"
+            "Containers, lockfiles, and pinned dependencies ensure agents "
+            "work in the same environment every time. Eliminates "
+            "'works on my machine' failures."
+        ),
+        "docs": (
+            "## Documentation\n"
+            "README, CONTRIBUTING, API docs, and CHANGELOG help agents "
+            "understand project conventions. Well-documented projects "
+            "produce higher quality agent output."
+        ),
+        "entropy": (
+            "## Entropy Management\n"
+            "Keeps context files focused (<200 lines), removes stale TODOs, "
+            "prevents external URL drift, and enforces architecture rules. "
+            "Low entropy = high signal for agents."
+        ),
+    }
+
+    c = Console()
+    if dimension:
+        key = dimension.lower().split()[0]
+        if key in explanations:
+            c.print(Markdown(explanations[key]))
+        else:
+            click.echo(f"Unknown dimension: {dimension}")
+            click.echo(f"Available: {', '.join(explanations)}")
+    else:
+        for text in explanations.values():
+            c.print(Markdown(text))
+            c.print()
+
+
 def _print_json(card) -> None:
     import json
 
