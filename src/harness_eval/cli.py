@@ -336,6 +336,49 @@ def _run_generate(
         click.echo(f"  [{diff}] {task.id}: {task.description}")
 
 
+@main.command(name="export")
+@click.argument(
+    "tasks_dir",
+    default="benchmarks",
+    type=click.Path(exists=True),
+)
+@click.option(
+    "-f",
+    "--format",
+    "fmt",
+    type=click.Choice(["swebench", "csv", "jsonl"]),
+    default="swebench",
+    help="Export format",
+)
+@click.option(
+    "-o",
+    "--output",
+    type=click.Path(),
+    help="Output file path",
+)
+def export_cmd(tasks_dir: str, fmt: str, output: str | None) -> None:
+    """Export benchmark tasks to SWE-bench or CSV format."""
+    from pathlib import Path
+
+    from harness_eval.exporter import to_csv, to_jsonl, to_swebench
+
+    tasks_path = Path(tasks_dir)
+    if fmt in ("swebench", "jsonl"):
+        if output:
+            count = to_jsonl(tasks_path, Path(output))
+            click.echo(f"Exported {count} tasks to {output}")
+        else:
+            import json
+
+            entries = to_swebench(tasks_path)
+            for entry in entries:
+                click.echo(json.dumps(entry))
+    elif fmt == "csv":
+        out = Path(output) if output else Path("benchmark-tasks.csv")
+        count = to_csv(tasks_path, out)
+        click.echo(f"Exported {count} tasks to {out}")
+
+
 @main.command(name="init")
 @click.argument(
     "path",
