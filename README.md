@@ -60,6 +60,16 @@ How it works:
 3. Extracts the **test patch** as the verification criteria
 4. Generates YAML task files with base commit, test patch, hints, difficulty
 
+### `run` — Execute benchmark tasks
+
+```bash
+harness-eval run . -t benchmarks/      # Run tasks against local repo
+harness-eval run . --json              # JSON output for CI
+```
+
+Validates that generated benchmark tasks are correct by checking
+that test patches catch the bugs on the base commit.
+
 ### `fix` — Auto-fix harness issues
 
 ```bash
